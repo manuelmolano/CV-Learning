@@ -1207,7 +1207,7 @@ if __name__ == '__main__':
     plt_trial_acc = False
     plt_trial_acc_misses = False
     plt_misses = False
-    plot_events = False
+    plot_events = True
     # 'dataset_N01' (subject from N01 to N18)
     # 'dataset_N19' (subject from N19 to N28)
     # 'dataset_C17' (subject from C17 to C22)
@@ -1275,29 +1275,16 @@ if __name__ == '__main__':
         figsize = (6, 3)
         events = ['surgery', 'sick', 'wounds']
         colors = 'rgb'
-        subj = 'N07'
-        f, ax = plt.subplots(figsize=figsize)
-        dataframe_4stage = dataframes_joint(df_trials, df_params, subj_unq)
-        df_trials_without_misses = remove_misses(dataframe_4stage)
-        plot_accuracy_trials_coloured_stage4(sbj=subj, ax=ax,
-                                             df=df_trials_without_misses)
-        add_dates(ax, df=df_trials_without_misses, sbj=subj)
-        vertical_line_session(ax, df=df_trials_without_misses, sbj=subj)
-        for i_e, ev in enumerate(events):
-            index_ev = find_events(df_tr=df_trials, subj=subj, event=ev)
-            vertical_line_events(ax, index_event=index_ev,
-                                 color_ev=colors[i_e])
-
-        # for subj in subj_unq:
-        #     f, ax = plt.subplots(figsize=figsize)
-        #     dataframe_4stage = dataframes_joint(df_trials, df_params, subj_unq)
-        #     df_trials_without_misses = remove_misses(dataframe_4stage)
-        #     plot_accuracy_trials_coloured_stage4(sbj=subj, ax=ax,
-        #                                           df=df_trials_without_misses)
-        #     add_dates(ax, df=df_trials_without_misses, sbj=subj)
-        #     vertical_line_session(ax, df=df_trials_without_misses, sbj=subj)
-        #     for i_e, ev in enumerate(events):
-        #         index_ev = find_events(df_tr=df_trials, subj=subj, event=ev)
-        #         vertical_line_events(ax, index_event=index_ev,
-        #                               color_ev=colors[i_e])
-        #     sv_fig(f=f, name='acc_acr_tr_subj_'+subj)
+        for subj in subj_unq:
+            f, ax = plt.subplots(figsize=figsize)
+            dataframe_4stage = dataframes_joint(df_trials, df_params, subj_unq)
+            df_trials_without_misses = remove_misses(dataframe_4stage)
+            plot_accuracy_trials_coloured_stage4(sbj=subj, ax=ax,
+                                                 df=df_trials_without_misses)
+            add_dates(ax, df=df_trials_without_misses, sbj=subj)
+            vertical_line_session(ax, df=df_trials_without_misses, sbj=subj)
+            for i_e, ev in enumerate(events):
+                index_ev = find_events(df_tr=df_trials, subj=subj, event=ev)
+                vertical_line_events(ax, index_event=index_ev,
+                                     color_ev=colors[i_e])
+            # sv_fig(f, 'Events_' + subj)
