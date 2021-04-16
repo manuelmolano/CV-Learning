@@ -12,10 +12,12 @@ import numpy as np
 
 
 class Shaping(ngym.TrialWrapper):
-    """Shaping task.
+    """Shaping.
 
-    TODO: Add doc
+    implements shaping with 4 stages: lick teaching, categorization,
+                                      first-counts, delay, ambiguity
     """
+
     metadata = {
         'description': '',
         'paper_link': None,
@@ -24,6 +26,29 @@ class Shaping(ngym.TrialWrapper):
 
     def __init__(self, env, init_ph=0, max_num_reps=3, short_dur=2, th=0.8,
                  perf_w=1000):
+        """
+        Initialize all parameters.
+
+        Parameters
+        ----------
+        env : ngym.env
+            environment to modify, it is expected to have XXX.
+        init_ph : int, optional
+            initial phase (stage) (0)
+        max_num_reps : int, optional
+            max number of times the agent can repeat the same side in phase 0 (3)
+        short_dur : TYPE, optional
+            DESCRIPTION. The default is 2.
+        th : TYPE, optional
+            DESCRIPTION. The default is 0.8.
+        perf_w : TYPE, optional
+            DESCRIPTION. The default is 1000.
+
+        Returns
+        -------
+        None.
+
+        """
         super().__init__(env)
         self.env = env
         self.curr_ph = init_ph
@@ -43,7 +68,6 @@ class Shaping(ngym.TrialWrapper):
         # self.ori_timing = self.env.timing
         self.ori_periods = self.env.timing.copy()
         self.sigma_ori = self.env.sigma.copy()
-
         self.set_parameters()
 
     def count(self, action):
