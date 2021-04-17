@@ -32,13 +32,16 @@ class MakingDelayResponse_stage(ngym.TrialEnv):
                  sigma=1.0, stage=4, max_num_rep=3):
         super().__init__(dt=dt)
         self.abort = False
-        self.choices = [1, 2]
-        delays = (0)
+        self.choices = [1, 2] # right or left options
+        delays = (0) # until stage 3 there are no delays
         self.cohs = np.array([51.2])*stim_scale
-        self.sigma = 0
-        self.stage = stage
         # cohs specifies the amount of evidence (modulated by stim_scale)
-        self.first_counts = False
+        # cohs = How much different are right and left stimulus
+        self.sigma = 0 # How much noise is applied
+        # until stage 4 there is not noise
+        self.stage = stage
+        self.first_counts = False # first answer is not penalized
+        # this only happens in stage 1
         self.max_num_rep = max_num_rep
         self.rep_counter = 0
         # Rewards
@@ -122,7 +125,7 @@ class MakingDelayResponse_stage(ngym.TrialEnv):
             new_trial = True if self.stage != 1 else action == gt
             if self.stage == 0:
                 reward = 0 if self.rep_counter >= self.max_num_rep\
-                    else self.rewards['correct']
+                    else self.rewards['correct'] # reward is 0 if it repeating more than it should
                 self.count(action)
             elif action == gt:
                 reward = self.rewards['correct']
